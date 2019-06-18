@@ -19,3 +19,34 @@ input2.addEventListener('input', function(e) {
     element.style.backgroundColor = e.target.value;
     localStorage.setItem('headerBackgroundColor', e.target.value);
 })
+
+const url = 'https://jsonplaceholder.typicode.com/todos'
+const xhr = new XMLHttpRequest();
+xhr.open('GET', url);
+xhr.onreadystatechange = function () {
+
+    if (xhr.readyState === 4) {
+        console.log(xhr.readyState);
+        const response = JSON.parse(xhr.responseText);
+        const completed = response.filter( todo => {
+            return todo.completed;
+        });
+    }
+    console.log(completed);
+    const incomplete = response.filter( todo => {
+        return todo.completed;
+    })
+};
+
+xhr.send();
+
+const request = new Request(url);
+
+const URL = request.url;
+const method = request.method;
+
+fetch(request).then( response => {
+    if (response.status === 200) {
+        return response.json();
+    }
+})
