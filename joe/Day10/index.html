@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Day 10</title>
+</head>
+<body>
+
+<script>
+    const pages = [];
+
+    function createButton(html, listener) {
+        const button = document.createElement('button');
+        button.innerHTML = html;
+        button.addEventListener('click', listener);
+        document.body.appendChild(button);
+    };
+
+    createButton('<--', function() {
+        const currentPage = document.body.querySelector('div');
+        const index = pages.indexOf(currentPage);
+        currentPage.remove();
+        if (index === 0) {
+            document.body.appendChild(pages[pages.length - 1]);
+        } else {
+            document.body.appendChild(pages[index - 1]);
+        }
+    });
+
+    createButton('-->', function() {
+        const currentPage = document.body.querySelector('div');
+        const index = pages.indexOf(currentPage);
+        currentPage.remove();
+        if (index === pages.length - 1) {
+            document.body.appendChild(pages[0]);
+        } else {
+            document.body.appendChild(pages[index + 1]);
+        }
+    });
+
+    function createPage(html) {
+        const page = document.createElement('div');
+        page.innerHTML = html;
+        pages.push(page);
+    };
+
+    const pagesConfig = [
+        {html: `<h1>Home</h1>
+                <p>Welcome to the home page!</p>`, name: 'Home'}, 
+        {html: `<h1>About</h1>
+                <p>Here's a little bit about me</p>`, name: 'About'},
+        {html: `<h1>Contact</h1>
+                <p>555-555-5555</p>
+                <p>404 Adress Street</p>
+                <p>Fresno, CA</p>`, name: 'Contact'},
+        {html: `<h1>Projects</h1>
+                <h3>Resumista</h3>
+                <p>Built with some colleagues for the JS No-Instructor course.</p>
+                <h3>Donezo</h3>
+                <p>Built as my final for my JavaScript class</p>`, name: 'Projects'}
+    ];
+
+    pagesConfig.forEach( function (item) {
+        createPage(item.html);
+        const btn = document.createElement('button');
+        btn.innerHTML = item.name;
+        btn.addEventListener('click', (e) => {
+            const currentPage = document.body.querySelector('div');
+            const index = pages.indexOf(currentPage);
+            currentPage.remove();
+            document.body.appendChild(pages[pagesConfig.indexOf(item)]);
+        });
+        document.body.appendChild(btn);
+    });
+
+    document.body.appendChild(pages[0]);
+</script>
+    
+</body>
+</html>
